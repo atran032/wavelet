@@ -17,7 +17,7 @@ class Handler implements URLHandler {
     public String handleRequest(URI url) {
         String[] list = new String[0];
         if (url.getPath().equals("/")) {
-            return "Welcome!";
+            return list.toString();
         }
         else if(url.getPath().contains("/add")) {
             String[] parameters = url.getQuery().split("=");
@@ -25,7 +25,19 @@ class Handler implements URLHandler {
                 expand(list);
                 list[list.length-1] = parameters[1];
             }
-            return null;
+            return "Added: " + parameters[1];
+        }
+        else if(url.getPath().contains("/search")) {
+            String[] parameters = url.getQuery().split("=");
+            // Fix this later
+            if (parameters[0].equals("s")) {
+                String[] results = new String[list.length];
+                for(int i = 0; i < list.length; i++) {
+                    if(list[i].contains(parameters[1])) {
+                        results[i] = list[i];
+                    }
+                }
+            }
         }
         else {
             return "404 Not Found!";
