@@ -6,21 +6,28 @@ class Handler implements URLHandler {
     // various requests.
     int num = 0;
 
+    public String[] expand(String[] original) {
+        String[] array = new String[original.length+1];
+        for(int i = 0; i < original.length; i++) {
+            array[i] = original[i];
+        }
+        return original = array;
+    }
+
     public String handleRequest(URI url) {
+        String[] list = new String[0];
         if (url.getPath().equals("/")) {
-            return String.format("Anthony's number: %d", num);
-        } else if (url.getPath().equals("/increment")) {
-            num += 1;
-            return String.format("Number incremented!");
-        } else {
-            System.out.println("Path: " + url.getPath());
-            if (url.getPath().contains("/add")) {
-                String[] parameters = url.getQuery().split("=");
-                if (parameters[0].equals("count")) {
-                    num += Integer.parseInt(parameters[1]);
-                    return String.format("Number increased by %s! It's now %d", parameters[1], num);
-                }
+            return "Welcome!";
+        }
+        else if(url.getPath().contains("/add")) {
+            String[] parameters = url.getQuery().split("=");
+            if (parameters[0].equals("s")) {
+                expand(list);
+                list[list.length-1] = parameters[1];
             }
+            return null;
+        }
+        else {
             return "404 Not Found!";
         }
     }
